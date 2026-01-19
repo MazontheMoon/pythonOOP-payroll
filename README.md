@@ -1,2 +1,3 @@
-# pythonOOP---payroll
-An employee payroll application with OOP 
+# Payroll with Object-Oriented Programming
+
+An employee payroll application developed with OOP principles
