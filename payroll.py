@@ -17,8 +17,8 @@ class Employee:
         self.empName = empName
         self.hoursWorked = hoursWorked
         self.rateOfPay = rateOfPay
-        self.grossPay = 0.00
-        self.nettPay = 0.00
+        self.grossPay = 0.0
+        self.nettPay = 0.0
 
     # Greet User
     def welcomeMessage():
@@ -47,22 +47,50 @@ class Employee:
     def printPayslip(self):
         timeStamp = datetime.datetime.now().strftime("%c")
         print("-".ljust(70, "-"))
-        print("Payslip".ljust(20),":", self.empName)
+        print(f"Employee Payslip: {self.empName}".center(70))
+        print(timeStamp.center(70))
+        print("-".ljust(70, "-"))
         print("Employee Number".ljust(20),":", self.empNo)
         print("Employee Name".ljust(20),":", self.empName)
         print("Hours Worked".ljust(20),":", self.hoursWorked)
         print("Rate of Pay".ljust(20),": €", self.rateOfPay)
         print("Gross Pay".ljust(20),": €", self.calcGross())
         print("Nett Pay".ljust(20),": €", self.calcNettPay())
-        print("Pay Period".ljust(20),":", timeStamp)
         print("-".ljust(70, "-"))
 
 # Validate Input
-def getValidTextInput():
-    pass
+def getValidStringInput(message):
+    while(True):
+        try:
+            value = input(message)
+            if value == "" :
+                raise Exception
+            else:
+                return value
+        except:
+            print("Invalid Entry, please try again. \n")
 
-def getValidNumberInput():
-    pass
+def getValidIntInput(message):
+    while(True):
+        try:
+            value = int((input(message)))
+            if value < 0 :
+                raise Exception
+            else:
+                return value
+        except:
+            print("Invalid Entry, please try again. \n")
+
+def getValidFloatInput(message):
+    while(True):
+        try:
+            value = float((input(message)))
+            if value < 0.0 :
+                raise Exception
+            else:
+                return value
+        except:
+            print("Invalid Entry, please try again. \n")
 
 # Main Program        
 def main():
@@ -71,10 +99,10 @@ def main():
     Employee.welcomeMessage()
 
     # Get user values
-    empNo = input("Enter Employee Number: ")
-    empName = input("Enter Employee Name: ")
-    hoursWorked = int(input("Enter Number of Hours Worked: "))
-    rateOfPay = int(input("Enter Pay Rate: €"))
+    empNo = getValidStringInput("Enter Employee Number: ")
+    empName = getValidStringInput("Enter Employee Name: ")
+    hoursWorked = getValidIntInput("Enter Number of Hours Worked: ")
+    rateOfPay = getValidFloatInput("Enter Pay Rate: €")
 
     # Create employee object
     myEmployee = Employee(empNo, empName, hoursWorked, rateOfPay)    
