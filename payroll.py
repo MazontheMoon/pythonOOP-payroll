@@ -1,4 +1,4 @@
-# SD-TA-007 Excercise 3
+# SD-GAL-05 SD-TA-007 Exercise 3
 # Author: Mary Ronan
 # Payroll Application with Object-Orientated Python
 
@@ -58,6 +58,22 @@ class Employee:
         print("Nett Pay".ljust(20),": €", self.calcNettPay())
         print("-".ljust(70, "-"))
 
+# Class
+class Manager(Employee):
+
+    # Class Variables
+    bonus = 100.00
+
+    # Class Instance Variables
+    def __init__(self, empNo, empName, hoursWorked, rateOfPay):
+        super().__init__(empNo, empName, hoursWorked, rateOfPay)
+
+    # Calculate Gross Pay
+    def calcGross(self):
+        self.grossPay = self.hoursWorked * self.rateOfPay
+        self.grossPay = self.grossPay + self.bonus
+        return self.grossPay
+
 # Validate Input
 def getValidStringInput(message):
     while(True):
@@ -103,12 +119,15 @@ def main():
     empName = getValidStringInput("Enter Employee Name: ")
     hoursWorked = getValidIntInput("Enter Number of Hours Worked: ")
     rateOfPay = getValidFloatInput("Enter Pay Rate: €")
-
-    # Create employee object
-    myEmployee = Employee(empNo, empName, hoursWorked, rateOfPay)    
+    empType = getValidStringInput("Enter Employee Type [E/M]: ")
 
     # Display payslip
-    myEmployee.printPayslip()
+    if empType.upper() == "E":
+        employee = Employee(empNo, empName, hoursWorked, rateOfPay)
+        employee.printPayslip()
+    else:
+        manager = Manager(empNo, empName, hoursWorked, rateOfPay)
+        manager.printPayslip()
 
     # Display exit message
     Employee.exitMessage()
