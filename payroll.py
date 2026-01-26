@@ -1,8 +1,13 @@
-# SD-GAL-05 SD-TA-007 Exercise 3
-# Author: Mary Ronan
-# Payroll Application with Object-Orientated Python
+'''
+SD-GAL-05 SD-TA-007 Exercise 009
+Author: Mary Ronan
+Last Modified: 26/01/2026
+Payroll Application with Object-Orientated Python and Unit Testing
+'''
 
+# Required Imports
 import datetime
+import unittest
 
 # Class
 class Employee:
@@ -74,7 +79,7 @@ class Manager(Employee):
         self.grossPay = self.grossPay + self.bonus
         return self.grossPay
 
-# Validate Input
+# Input Validation
 def getValidStringInput(message):
     while(True):
         try:
@@ -109,27 +114,58 @@ def getValidFloatInput(message):
             print("Invalid Entry, please try again. \n")
 
 # Main Program        
-def main():
 
-    # Greet user
-    Employee.welcomeMessage()
+# Greet user
+Employee.welcomeMessage()
 
-    # Get user values
-    empNo = getValidStringInput("Enter Employee Number: ")
-    empName = getValidStringInput("Enter Employee Name: ")
-    hoursWorked = getValidIntInput("Enter Number of Hours Worked: ")
-    rateOfPay = getValidFloatInput("Enter Pay Rate: €")
-    empType = getValidStringInput("Enter Employee Type [E/M]: ")
+# Get user values
+empNo = getValidStringInput("Enter Employee Number: ")
+empName = getValidStringInput("Enter Employee Name: ")
+hoursWorked = getValidIntInput("Enter Number of Hours Worked: ")
+rateOfPay = getValidFloatInput("Enter Pay Rate: €")
+empType = getValidStringInput("Enter Employee Type [E/M]: ")
 
-    # Display payslip
-    if empType.upper() == "E":
-        employee = Employee(empNo, empName, hoursWorked, rateOfPay)
-        employee.printPayslip()
-    else:
-        manager = Manager(empNo, empName, hoursWorked, rateOfPay)
-        manager.printPayslip()
+# Display payslip
+if empType.upper() == "E":
+    employee = Employee(empNo, empName, hoursWorked, rateOfPay)
+    employee.printPayslip()
+else:
+    manager = Manager(empNo, empName, hoursWorked, rateOfPay)
+    manager.printPayslip()
 
-    # Display exit message
-    Employee.exitMessage()
+# Display exit message
+Employee.exitMessage()
 
-main()
+# Unit Testing
+class unittests(unittest.TestCase):
+
+    # Test 001 - Employee Number contains more than 1 character
+    def test001(self):
+        assert (len(empNo) > 1)
+
+    # Test 002 - Hours worked is NOT a negative value
+    def test002(self):
+        self.assertTrue(hoursWorked >= 0)
+
+    # Test 003 - Employee object is member of Employee class
+    def test003(self):
+        if empType.upper() == "E":
+            self.assertIsInstance(employee, Employee)
+        if empType.upper() == "M":
+            self.assertIsInstance(manager, Manager)
+
+    # Test 004 - Gross Pay calculations correct
+
+    def test004(self):
+        if empType.upper() == "E":
+            self.assertEqual(employee.calcGross(), hoursWorked * rateOfPay)
+        if empType.upper() == "M":
+            self.assertEqual(manager.calcGross(), hoursWorked * rateOfPay)
+            
+    # Test 005 - Bonus added to manager pay
+    def test005(self):
+        emp = Employee(empNo, empName, hoursWorked, rateOfPay)
+        man = Manager(empNo, empName, hoursWorked, rateOfPay) 
+        self.assertEqual(emp.calcGross(), man.calcGross() - 100.00)
+
+unittest.main()
